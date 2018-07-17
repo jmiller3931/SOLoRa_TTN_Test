@@ -1,0 +1,30 @@
+function Decoder(bytes, port) {
+  // Decode an uplink message from a buffer
+  // (array) of bytes to an object of fields.
+  var decoded = {};
+
+  if (port===2){
+    decoded.soloraCount = bytes[0];
+    decoded.config = bytes[1];
+    if (bytes[1] & 0x01){
+      decoded.temperature = (bytes[2]*256+bytes[3])/8.0-100.0;
+    }
+    if (bytes[1] & 0x02){
+      decoded.accelX = bytes[4];
+       if (decoded.accelX > 127) {
+         decoded.accelX  -= 256;
+       }
+      decoded.accelY = bytes[5] ; 
+       if (decoded.accelY > 127) {
+         decoded.accelY  -= 256;
+       }
+      decoded.accelZ = bytes[6] ;
+       if (decoded.accelZ > 127) {
+         decoded.accelZ  -= 256;
+       }
+    }
+
+  }
+
+  return decoded;
+}
