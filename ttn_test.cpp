@@ -133,15 +133,12 @@ static void send_packet(osjob_t* j)
 #endif
 
 #ifdef ACCEL
-    int16_t accel[3];
+    int8_t accel[3];
     getAccel(accel);
     // transfer signed accel value
-    payload[idx++] = accel[0] >> 8; //msb first
-    payload[idx++] = accel[0] ;   // LSB
-    payload[idx++] = accel[1] >> 8; //msb first
-    payload[idx++] = accel[1] ;   // LSB
-    payload[idx++] = accel[2] >> 8; //msb first
-    payload[idx++] = accel[2];    // LSB
+    payload[idx++] = accel[0] ;   
+    payload[idx++] = accel[1] ;   
+    payload[idx++] = accel[2];    
 #endif
 
       LMIC_setTxData2(port, payload, idx, 0);
