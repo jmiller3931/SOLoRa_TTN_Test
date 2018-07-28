@@ -149,15 +149,8 @@ static void send_packet(osjob_t* j)
 #endif
 
 #ifdef ACCEL
-    int16_t accel[3];
     getAccel(accel);
     // transfer signed accel value
-    payload[idx++] = accel[0] >> 8; //msb first
-    payload[idx++] = accel[0] ;   // LSB
-    payload[idx++] = accel[1] >> 8; //msb first
-    payload[idx++] = accel[1] ;   // LSB
-    payload[idx++] = accel[2] >> 8; //msb first
-    payload[idx++] = accel[2];    // LSB
 #endif
 
    // battery Voltage in mV

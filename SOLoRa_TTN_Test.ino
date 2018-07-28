@@ -1,5 +1,4 @@
 /*******************************************************************************
- * SOLoRa ttn test
  *
  * Send TTN packets with a packet counter and temperature and/or accel value if applicable
  *

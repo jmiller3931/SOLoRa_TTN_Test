@@ -49,11 +49,7 @@ float getTemp(void){
 
 
 
-void getAccel(int16_t *accelVal) {
-  
-    Wire.beginTransmission(LIS3DH_ADDRESS);
-    Wire.write(LIS3DH_REG_OUT_X_L | 0x80); // 0x80 for autoincrement
-    Wire.endTransmission();
+void getAccel(int8_t *accelVal) {
 
     Wire.requestFrom(LIS3DH_ADDRESS, 6);
     //accelVal[0] = Wire.read(); accelVal[0] |= ((uint16_t)Wire.read()) << 8;
