@@ -34,6 +34,7 @@ static uint8_t packetCount;
 
 extern uint16_t update_LED_interval_ms;
 extern uint8_t SOLoRaConfig;
+extern int batteryPin;
 
 // Getters for LMIC
 void os_getArtEui (u1_t* buf)
@@ -99,10 +100,10 @@ void init_lora (osjob_t* j)
   // Disable Adaptive Datarate
   LMIC_setAdrMode(0);
   // Downlink Data Rate in the RX2 window
-  LMIC.dn2Dr = DR_SF10;
+  LMIC.dn2Dr = DR_SF7;
   
   // Set data rate and transmit power for uplink (note: txpow seems to be ignored by the library)
-  LMIC_setDrTxpow(DR_SF10,23);
+  LMIC_setDrTxpow(DR_SF7,23);
 // ************ end US915 requirements *************
 
 
@@ -110,6 +111,20 @@ void init_lora (osjob_t* j)
   LMIC_startJoining();
 }
 
+void init_readBatteryVoltage(void){
+  ADC->REFCTRL.bit.REFSEL = ADC_REFCTRL_REFSEL_INT1V_Val;  // 1.0V voltage reference
+  analogReadResolution(12); // change the resolution to 12 bits
+}
+int readBatteryVoltage( void )  // this returns milliVolts
+{
+  #define R5  402   // Resistor value in K-Ohms
+  #define RDIV (100.0F / (R5 + 100.0F))
+  float _battery = analogRead(batteryPin);
+  _battery /= RDIV; // multiply back 1/RDIV (resistor divider)
+  _battery *= 1.0;  // Multiply by 1.0V, our reference voltage
+  _battery /= 4.096; // convert to millivolts /(4096/1000mV)
+  return (int)_battery;
+}
 
 // Send job
 static osjob_t send_packet_job;
@@ -117,7 +132,8 @@ static void send_packet(osjob_t* j)
 {
   static uint8_t payload[32];
   uint8_t idx = 0;
-
+  int batteryVoltage = readBatteryVoltage();
+  
   // Check if there is not a current TX/RX job running
   if (!(LMIC.opmode & OP_TXRXPEND)) {
 
@@ -143,6 +159,10 @@ static void send_packet(osjob_t* j)
     payload[idx++] = accel[2] >> 8; //msb first
     payload[idx++] = accel[2];    // LSB
 #endif
+
+   // battery Voltage in mV
+   payload[idx++] = batteryVoltage >> 8;    // MSB
+   payload[idx++] = batteryVoltage;    // LSB
 
       LMIC_setTxData2(port, payload, idx, 0);
   }
@@ -171,7 +191,7 @@ void onEvent (ev_t ev) {
         case EV_BEACON_TRACKED:
             DP("Beacon Tracked"); 
             break;
-        case EV_JOINING:
+        case EV_JOINING:       
             DP("Joining"); 
             break;
         case EV_JOINED:
@@ -181,6 +201,14 @@ void onEvent (ev_t ev) {
             // Disable link check validation (automatically enabled
             // during join, but not supported by TTN at this time).
             LMIC_setLinkCheckMode(0);
+
+ digitalWrite(LED_BUILTIN, LOW);   // turn the LED
+  SCB->SCR |= SCB_SCR_SLEEPDEEP_Msk;
+  __DSB();
+  __WFI();
+
+
+            
             // Start sending packets
             os_setCallback(&send_packet_job, send_packet);
             break;
