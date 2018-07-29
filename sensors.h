@@ -1,14 +1,14 @@
 // sensors.h  Drivers for SOLoRa's optional built-in sensors
 
 extern float getTemp(void);
-extern void getAccel(short int *accelVal);
+extern void getAccel(signed char *accelVal);
 extern void initTemp(void);
 extern void initAccel(void);
 
 #define LM75_TEMP               0x00    /**< RAM reg - Temperature */
 #define LM75_I2CADDR            0x48    /**< Device default slave address */
 
-#define LIS3DH_ADDRESS          0x18
+#define LIS3DH_ADDRESS          0x28
 #define LIS3DH_REG_STATUS1       0x07
 #define LIS3DH_REG_OUTADC1_L     0x08
 #define LIS3DH_REG_OUTADC1_H     0x09
@@ -27,12 +27,9 @@ extern void initAccel(void);
 #define LIS3DH_REG_CTRL6         0x25
 #define LIS3DH_REG_REFERENCE     0x26
 #define LIS3DH_REG_STATUS2       0x27
-#define LIS3DH_REG_OUT_X_L       0x28
-#define LIS3DH_REG_OUT_X_H       0x29
-#define LIS3DH_REG_OUT_Y_L       0x2A
-#define LIS3DH_REG_OUT_Y_H       0x2B
-#define LIS3DH_REG_OUT_Z_L       0x2C
-#define LIS3DH_REG_OUT_Z_H       0x2D
+#define LIS3DH_REG_OUT_X         0x29
+#define LIS3DH_REG_OUT_Y         0x2B
+#define LIS3DH_REG_OUT_Z          0x2D
 #define LIS3DH_REG_FIFOCTRL      0x2E
 #define LIS3DH_REG_FIFOSRC       0x2F
 #define LIS3DH_REG_INT1CFG       0x30

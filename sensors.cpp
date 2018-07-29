@@ -38,10 +38,7 @@ float getTemp(void){
     val = Wire.read() << 8;
     val |= Wire.read();
 
-
-
     temperature = (float)val * 0.125/32.0;
-//    temperature = -2.25;
 
     return temperature;
 }
@@ -51,17 +48,10 @@ float getTemp(void){
 
 void getAccel(int8_t *accelVal) {
 
-    Wire.requestFrom(LIS3DH_ADDRESS, 6);
-    //accelVal[0] = Wire.read(); accelVal[0] |= ((uint16_t)Wire.read()) << 8;
-    accelVal[0] = readI2Creg(LIS3DH_ADDRESS, 0x0F);// whoami
-    
-    accelVal[1] = Wire.read(); accelVal[1] |= ((uint16_t)Wire.read()) << 8;
-    accelVal[2] = Wire.read(); accelVal[2] |= ((uint16_t)Wire.read()) << 8;
-    
-    
-//    accelVal[0] = -1;
-//    accelVal[1] = -2;
-//    accelVal[2] = -3;
+    accelVal[0] = (int8_t)readI2Creg(LIS3DH_ADDRESS, LIS3DH_REG_OUT_X);
+    accelVal[1] = (int8_t)readI2Creg(LIS3DH_ADDRESS, LIS3DH_REG_OUT_Y);
+    accelVal[2] = (int8_t)readI2Creg(LIS3DH_ADDRESS, LIS3DH_REG_OUT_Z);
+      
 }
 
 void initTemp(void) {
@@ -71,22 +61,15 @@ void initTemp(void) {
 
 void initAccel(void) {
 
-  writeI2Creg(LIS3DH_ADDRESS, LIS3DH_REG_CTRL1, 0x07);
-
-  // set data rate
+   // set data rate
   uint8_t ctl1 = readI2Creg(LIS3DH_ADDRESS,LIS3DH_REG_CTRL1);
   ctl1 &= ~(0xF0); // mask off bits
   ctl1 |= (1 << 4); // 1Hz
   writeI2Creg(LIS3DH_ADDRESS,LIS3DH_REG_CTRL1, ctl1);
 
-  // High res & BDU enabled
-  writeI2Creg(LIS3DH_ADDRESS, LIS3DH_REG_CTRL4, 0x88);
 
   // DRDY on INT1
-  writeI2Creg(LIS3DH_ADDRESS, LIS3DH_REG_CTRL3, 0x10);
-
-  // enable adcs
-  writeI2Creg(LIS3DH_ADDRESS, LIS3DH_REG_TEMPCFG, 0x80);
+//  writeI2Creg(LIS3DH_ADDRESS, LIS3DH_REG_CTRL3, 0x10);
 
 
 }

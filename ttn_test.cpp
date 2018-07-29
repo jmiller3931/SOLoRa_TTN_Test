@@ -149,8 +149,12 @@ static void send_packet(osjob_t* j)
 #endif
 
 #ifdef ACCEL
+    int8_t accel[3];
     getAccel(accel);
     // transfer signed accel value
+    payload[idx++] = accel[0] ;   
+    payload[idx++] = accel[1] ;   
+    payload[idx++] = accel[2];    
 #endif
 
    // battery Voltage in mV
@@ -194,13 +198,6 @@ void onEvent (ev_t ev) {
             // Disable link check validation (automatically enabled
             // during join, but not supported by TTN at this time).
             LMIC_setLinkCheckMode(0);
-
- digitalWrite(LED_BUILTIN, LOW);   // turn the LED
-  SCB->SCR |= SCB_SCR_SLEEPDEEP_Msk;
-  __DSB();
-  __WFI();
-
-
             
             // Start sending packets
             os_setCallback(&send_packet_job, send_packet);
@@ -221,6 +218,13 @@ void onEvent (ev_t ev) {
             if (LMIC.txrxFlags & TXRX_ACK) {
               DP(" - Received ack"); 
             }
+
+ digitalWrite(LED_BUILTIN, LOW);   // turn off the LED
+  SCB->SCR |= SCB_SCR_SLEEPDEEP_Msk;
+  __DSB();
+  __WFI();
+
+
             // We could re-schedule from here, but it would break the loop if a
             // TX never completes...
             // os_setTimedCallback(&send_packet_job,

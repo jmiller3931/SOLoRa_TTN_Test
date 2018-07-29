@@ -1,9 +1,15 @@
 /*******************************************************************************
+ * SOLoRa ttn test  J. Miller 7/16/18
  *
  * Send TTN packets with a packet counter and temperature and/or accel value if applicable
  *
  * This code runs on the SOLoRa node board github/180Studios/SoLoRa
  * Slow LED blink while joining, blink rate increases upon successfull join
+ * 
+ * Be sure to update the build configuration with the on-board sensors you installed
+ * ...or did not install by updating ttn_test.h
+ * 
+ * Jumper from DOI1 (JP1.1) to D11 (JP2.6) required for V1.0 SOLoRa board
  *
  *******************************************************************************/
 

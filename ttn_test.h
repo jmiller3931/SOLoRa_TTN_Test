@@ -1,10 +1,7 @@
 // ttn_test.h
 
 // if DEBUG is defined, this sketch will not run without a terminal open on the USB serial port
-<<<<<<< HEAD
 // #define DEBUG  
-=======
->>>>>>> 5c2557ace294950483a359d24a9e6010f84355a7
 
 // Hardware Configuration Switches. Uncomment that you wish to test (and is installed on your SOLoRa board)
 
