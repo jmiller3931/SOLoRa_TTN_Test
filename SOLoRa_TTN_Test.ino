@@ -49,13 +49,10 @@ uint8_t SOLoRaConfig = 0;
 void setup() {
   // initialize digital pin LED_BUILTIN as an output.
   pinMode(LED_BUILTIN, OUTPUT);
-<<<<<<< HEAD
   delay(1);    // 2 x blinks to confirm startup
   digitalWrite(LED_BUILTIN, HIGH);delay(200);digitalWrite(LED_BUILTIN, LOW);delay(200);
   digitalWrite(LED_BUILTIN, HIGH);delay(200);digitalWrite(LED_BUILTIN, LOW);delay(200);
-=======
   digitalWrite(LED_BUILTIN, LOW);   // turn the LED
->>>>>>> 7f590e863579956661985fec80e54520f157b10f
 
   
 #ifdef DEBUG
