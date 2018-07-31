@@ -47,8 +47,11 @@ uint8_t SOLoRaConfig = 0;
 void setup() {
   // initialize digital pin LED_BUILTIN as an output.
   pinMode(LED_BUILTIN, OUTPUT);
-  digitalWrite(LED_BUILTIN, HIGH);   // turn the LED
+  delay(1);    // 2 x blinks to confirm startup
+  digitalWrite(LED_BUILTIN, HIGH);delay(200);digitalWrite(LED_BUILTIN, LOW);delay(200);
+  digitalWrite(LED_BUILTIN, HIGH);delay(200);digitalWrite(LED_BUILTIN, LOW);delay(200);
 
+  
 #ifdef DEBUG
   Serial.begin(115200);
   while (!Serial) {
@@ -93,6 +96,13 @@ void setup() {
   os_setCallback(&update_LED_job, update_LED);
   // Initialize radio
   os_setCallback(&init_lora_job, init_lora);
+
+    // 3xblinks to confirm initialization complete
+  digitalWrite(LED_BUILTIN, HIGH);delay(200);digitalWrite(LED_BUILTIN, LOW);delay(200);
+  digitalWrite(LED_BUILTIN, HIGH);delay(200);digitalWrite(LED_BUILTIN, LOW);delay(200);
+  digitalWrite(LED_BUILTIN, HIGH);delay(200);digitalWrite(LED_BUILTIN, LOW);delay(200);
+  digitalWrite(LED_BUILTIN, HIGH);
+
 }
 
 void loop() {
