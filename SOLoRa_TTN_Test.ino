@@ -18,6 +18,8 @@
 #include "ttn_test.h"  // setup compile configuration here condition
 #include "sensors.h"
 
+int batteryPin = A7; // V_BATT voltage divider connected to D9/A7
+
 // Init radio
 extern osjob_t init_lora_job;
 extern void init_lora (osjob_t* j);
@@ -47,9 +49,13 @@ uint8_t SOLoRaConfig = 0;
 void setup() {
   // initialize digital pin LED_BUILTIN as an output.
   pinMode(LED_BUILTIN, OUTPUT);
+<<<<<<< HEAD
   delay(1);    // 2 x blinks to confirm startup
   digitalWrite(LED_BUILTIN, HIGH);delay(200);digitalWrite(LED_BUILTIN, LOW);delay(200);
   digitalWrite(LED_BUILTIN, HIGH);delay(200);digitalWrite(LED_BUILTIN, LOW);delay(200);
+=======
+  digitalWrite(LED_BUILTIN, LOW);   // turn the LED
+>>>>>>> 7f590e863579956661985fec80e54520f157b10f
 
   
 #ifdef DEBUG
@@ -84,6 +90,9 @@ void setup() {
   if(SOLoRaConfig > 1) {
     initAccel();
   }
+
+  // initialize ADC for Battery 
+  init_readBatteryVoltage();
   
   // initialize the scheduler
   os_init();
@@ -106,6 +115,7 @@ void setup() {
 }
 
 void loop() {
+
   // Run the scheduler
   os_runloop_once();
 }
