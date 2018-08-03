@@ -78,7 +78,6 @@ void init_lora (osjob_t* j)
 // ********* additional US915 requirements *************
   // TTN uses the second sub-band (1 for SFB2), which are channels 8-15
   LMIC_disableSubBand (0);
-  LMIC_enableSubBand (1);
   LMIC_selectSubBand (1);
   LMIC_disableSubBand (2);
   LMIC_disableSubBand (3);

@@ -23,7 +23,8 @@
             "browse": {
                 "limitSymbolsToIncludedHeaders": false,
                 "path": [
-                    "C:\\Users\\heyjo\\AppData\\Local\\Arduino15\\packages\\adafruit\\hardware\\samd\\1.2.0\\cores\\arduino"
+                    "C:\\Users\\heyjo\\AppData\\Local\\Arduino15\\packages\\adafruit\\hardware\\samd\\1.2.0\\cores\\arduino",
+                    "C:/Users/heyjo/OneDrive/Documents/Arduino/libraries/arduino-lmic/src/**"
                 ]
             }
         }
