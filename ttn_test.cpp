@@ -77,27 +77,7 @@ void init_lora (osjob_t* j)
 
 // ********* additional US915 requirements *************
   // TTN uses the second sub-band (1 for SFB2), which are channels 8-15
-  LMIC_disableSubBand (0);
   LMIC_selectSubBand (1);
-  LMIC_disableSubBand (2);
-  LMIC_disableSubBand (3);
-  LMIC_disableSubBand (4);
-  LMIC_disableSubBand (5);
-  LMIC_disableSubBand (6);
-  LMIC_disableSubBand (7);
-  
-  //Disable FSB1, channels 0-7
-  for (int i = 0; i <= 7; i++) 
-  {
-  LMIC_disableChannel(i);
-  LMIC_enableChannel (i+8); 
-  } 
-  
-  //Disable channels 16-64
-  for (int i = 16; i <= 64; i++) 
-  {
-  LMIC_disableChannel(i);
-  }
   
   //Disable channels 66-72
   for (int i = 66; i <= 72; i++) 
@@ -107,11 +87,12 @@ void init_lora (osjob_t* j)
   
   // Disable Adaptive Datarate
   LMIC_setAdrMode(0);
+  
   // Downlink Data Rate in the RX2 window
   LMIC.dn2Dr = DR_SF7;
   
   // Set data rate and transmit power for uplink (note: txpow seems to be ignored by the library)
-  LMIC_setDrTxpow(DR_SF7,23);
+  LMIC_setDrTxpow(DR_SF10,23);
 // ************ end US915 requirements *************
 
 
@@ -125,12 +106,12 @@ void init_readBatteryVoltage(void){
 }
 int readBatteryVoltage( void )  // this returns milliVolts
 {
-  #define R5  402   // Resistor value in K-Ohms
+  #define R5  220   // Resistor value in K-Ohms
   #define RDIV (100.0F / (R5 + 100.0F))
   float _battery = analogRead(batteryPin);
   _battery /= RDIV; // multiply back 1/RDIV (resistor divider)
   _battery *= 1.0;  // Multiply by 1.0V, our reference voltage
-  _battery /= 4.096; // convert to millivolts /(4096/1000mV)
+  _battery /= 4.096; // convert to millivolts /(4096maxADCcounts/1000mV)
   return (int)_battery;
 }
 
