@@ -95,7 +95,7 @@ void setup() {
   os_init();
 
   // Reset the MAC state. Session and pending data transfers will be discarded.
-  // LMIC_reset();
+  LMIC_reset();
 
   // Schedule jobs
   // LED updates
@@ -107,7 +107,7 @@ void setup() {
   digitalWrite(LED_BUILTIN, HIGH);delay(200);digitalWrite(LED_BUILTIN, LOW);delay(200);
   digitalWrite(LED_BUILTIN, HIGH);delay(200);digitalWrite(LED_BUILTIN, LOW);delay(200);
   digitalWrite(LED_BUILTIN, HIGH);delay(200);digitalWrite(LED_BUILTIN, LOW);delay(200);
-  digitalWrite(LED_BUILTIN, HIGH);
+
 
 }
 
