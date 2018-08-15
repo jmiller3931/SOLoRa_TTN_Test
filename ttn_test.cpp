@@ -80,10 +80,10 @@ void init_lora (osjob_t* j)
   LMIC_selectSubBand (1);
   
   //Disable channels 66-72
-  for (int i = 66; i <= 72; i++) 
-  {
-  LMIC_disableChannel(i);
-  }
+//   for (int i = 66; i <= 72; i++) 
+//   {
+//   LMIC_disableChannel(i);
+//   }
   
   // Disable Adaptive Datarate
   LMIC_setAdrMode(0);
